@@ -216,7 +216,7 @@ class Contract:
     # Contract Methods
     #
     @classmethod
-    def deploy(cls, transaction=None, args=None, kwargs=None):
+    def deploy(cls, raw_tx=False, transaction=None, args=None, kwargs=None):
         """
         Deploys the contract on a blockchain.
 
@@ -265,6 +265,9 @@ class Contract:
         deploy_transaction['data'] = cls._encode_constructor_data(args, kwargs)
 
         # TODO: handle asynchronous contract creation
+        if raw_tx:
+            return deploy_transaction
+
         txn_hash = cls.web3.eth.sendTransaction(deploy_transaction)
         return txn_hash
 
